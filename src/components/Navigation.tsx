@@ -59,9 +59,9 @@ export default function Navigation() {
             className="flex items-center space-x-2 text-white font-bold text-xl"
             onClick={closeMenu}
           >
-            <Sparkles className="w-8 h-8 text-orange-500" />
+            <img src="/icon-192.png" alt="Logo" className="w-8 h-8" />
             <span className="bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">
-              Firebase Studio
+              Firebase Studio: AI时代的开发新范式
             </span>
           </Link>
 
