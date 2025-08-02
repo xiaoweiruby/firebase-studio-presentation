@@ -194,6 +194,11 @@ export default function Timeline() {
                 </p>
               </div>
             </div>
+            <div className="mt-8 pt-8 border-t border-white/20">
+              <p className="text-sm text-gray-400">
+                © 2024 Firebase Studio Presentation | 基于真实历史资料整理
+              </p>
+            </div>
           </div>
         </motion.div>
       </div>
