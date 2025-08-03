@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Play, Star, Zap, Gift, Shuffle, Trophy, Copy, Check } from 'lucide-react';
+import { Play, Star, Zap, Gift, Shuffle, Trophy, Copy, Check, Code } from 'lucide-react';
 import { useState } from 'react';
 
 /**
@@ -16,113 +16,53 @@ export default function Demo() {
   // 复制功能状态
   const [copiedPrompt, setCopiedPrompt] = useState<string | null>(null);
 
-  // 100个职业案例数据
+  // 40个应用程序案例数据（包含完整的 prompt 字段）
   const allCases = [
-    { profession: '米其林三星主厨', business: '私厨餐厅「星曜」', service: '私厨餐厅' },
-    { profession: '高级珠宝设计师', business: '珠宝定制工作室「晶璨」', service: '珠宝定制' },
-    { profession: '调香师', business: '香气实验室「馥境」', service: '香氛品牌' },
-    { profession: '独立制表师', business: '手工腕表工坊「时冕」', service: '腕表品牌' },
-    { profession: '室内建筑设计师', business: '全案设计事务所「境造」', service: '设计事务所' },
-    { profession: '高级西装裁缝', business: '定制西装会所「绅裁」', service: '西装定制' },
-    { profession: '古董车修复师', business: '老爷车修复中心「御驰」', service: '古董车修复' },
-    { profession: '高级花艺师', business: '花艺艺术馆「花御」', service: '花艺品牌' },
-    { profession: '威士忌桶艺师', business: '橡木桶艺廊「醇樽」', service: '威士忌艺术装置' },
-    { profession: '钢琴调律师', business: '钢琴精调工作室「律韵」', service: '钢琴服务' },
-    { profession: '雪茄卷制大师', business: '雪茄会所「烟岚」', service: '雪茄文化' },
-    { profession: '高级皮革匠', business: '皮具定制坊「革隐」', service: '皮具品牌' },
-    { profession: '游艇室内设计师', business: '游艇美学事务所「澜舱」', service: '游艇设计' },
-    { profession: '高端宠物美容师', business: '宠物奢护中心「宠爵」', service: '宠物美学' },
-    { profession: '黑胶唱片修复师', business: '声学档案馆「声纹」', service: '黑胶修复' },
-    { profession: '高级瓷器修复师', business: '古瓷修复馆「瓷隐」', service: '瓷器修复' },
-    { profession: '高级茶艺师', business: '茶空间「茗境」', service: '茶道体验' },
-    { profession: '高端影像修复师', business: '老照片修复工作室「映纪」', service: '影像修复' },
-    { profession: '高级金缮师', business: '金缮美学馆「缮物」', service: '金缮艺术' },
-    { profession: '高级手工书装帧师', business: '装帧艺术坊「书笈」', service: '手工书' },
-    { profession: '高级制琴师', business: '手工吉他工坊「弦造」', service: '手工吉他' },
-    { profession: '高级腕表微绘师', business: '表盘微绘工作室「微时」', service: '表盘艺术' },
-    { profession: '高级香道师', business: '香道馆「篆香」', service: '香道文化' },
-    { profession: '高级手工皂师', business: '冷制皂艺廊「皂界」', service: '手工皂' },
-    { profession: '高级银匠', business: '银饰工作室「银序」', service: '银饰定制' },
-    { profession: '高级玻璃艺术师', business: '玻璃吹制工坊「琉光」', service: '玻璃艺术' },
-    { profession: '高级手工地毯设计师', business: '地毯高定坊「毯韵」', service: '地毯定制' },
-    { profession: '高级手工笔匠', business: '钢笔定制工坊「笔藏」', service: '高端钢笔' },
-    { profession: '高级手工刀匠', business: '刀具工作室「刃隐」', service: '手工刀' },
-    { profession: '高级手工扇师', business: '折扇艺术馆「扇雅」', service: '折扇品牌' },
-    { profession: '高级手工伞匠', business: '油纸伞工作室「伞语」', service: '手工伞' },
-    { profession: '高级手工灯笼师', business: '宫灯艺术馆「灯煌」', service: '宫灯品牌' },
-    { profession: '高级手工风筝师', business: '风筝艺术馆「鸢阁」', service: '风筝品牌' },
-    { profession: '高级手工剪纸师', business: '剪纸艺术馆「剪影」', service: '剪纸艺术' },
-    { profession: '高级手工糖画师', business: '糖艺馆「糖朝」', service: '糖画艺术' },
-    { profession: '高级手工面塑师', business: '面塑艺术馆「面魂」', service: '面塑艺术' },
-    { profession: '高级手工皮影师', business: '皮影艺术馆「影戏」', service: '皮影艺术' },
-    { profession: '高级手工木偶师', business: '木偶艺术馆「偶语」', service: '木偶艺术' },
-    { profession: '高级手工脸谱师', business: '京剧脸谱馆「谱韵」', service: '脸谱艺术' },
-    { profession: '高级手工年画师', business: '年画艺术馆「画岁」', service: '年画品牌' },
-    { profession: '高级手工刺绣师', business: '苏绣工作室「绣隐」', service: '苏绣' },
-    { profession: '高级手工缂丝师', business: '缂丝艺术馆「缂华」', service: '缂丝' },
-    { profession: '高级手工扎染师', business: '扎染艺术馆「染境」', service: '扎染' },
-    { profession: '高级手工蜡染师', business: '蜡染艺术馆「蜡语」', service: '蜡染' },
-    { profession: '高级手工蓝染师', business: '蓝染工作室「蓝序」', service: '蓝染' },
-    { profession: '高级手工织锦师', business: '织锦艺术馆「锦章」', service: '织锦' },
-    { profession: '高级手工竹编师', business: '竹编艺术馆「竹间」', service: '竹编' },
-    { profession: '高级手工草编师', business: '草编艺术馆「草语」', service: '草编' },
-    { profession: '高级手工藤编师', business: '藤编艺术馆「藤境」', service: '藤编' },
-    { profession: '高级手工榫卯师', business: '榫卯艺术馆「卯构」', service: '榫卯' },
-    { profession: '高级手工古琴师', business: '古琴坊「徽音」', service: '古琴' },
-    { profession: '高级手工尺八师', business: '尺八工坊「八空」', service: '尺八' },
-    { profession: '高级手工箜篌师', business: '箜篌艺术馆「箜鸣」', service: '箜篌' },
-    { profession: '高级手工编钟师', business: '编钟艺术馆「钟律」', service: '编钟' },
-    { profession: '高级手工埙师', business: '陶埙艺术馆「埙声」', service: '陶埙' },
-    { profession: '高级手工笛箫师', business: '笛箫工坊「箫韶」', service: '笛箫' },
-    { profession: '高级手工琵琶师', business: '琵琶工坊「琵语」', service: '琵琶' },
-    { profession: '高级手工二胡师', business: '二胡工坊「胡琴」', service: '二胡' },
-    { profession: '高级手工古筝师', business: '古筝工坊「筝鸣」', service: '古筝' },
-    { profession: '高级手工扬琴师', business: '扬琴工坊「扬韵」', service: '扬琴' },
-    { profession: '高级手工漆器师', business: '漆器艺术馆「漆隐」', service: '漆器' },
-    { profession: '高级手工珐琅师', business: '珐琅艺术馆「琅华」', service: '珐琅' },
-    { profession: '高级手工錾刻师', business: '錾刻艺术馆「錾境」', service: '錾刻' },
-    { profession: '高级手工鎏金师', business: '鎏金艺术馆「金缮」', service: '鎏金' },
-    { profession: '高级手工镶嵌师', business: '镶嵌艺术馆「嵌语」', service: '镶嵌' },
-    { profession: '高级手工錾银师', business: '錾银艺术馆「银錾」', service: '錾银' },
-    { profession: '高级手工烧蓝师', business: '烧蓝艺术馆「蓝焰」', service: '烧蓝' },
-    { profession: '高级手工掐丝师', business: '掐丝艺术馆「丝韵」', service: '掐丝' },
-    { profession: '高级手工点翠师', business: '点翠艺术馆「翠羽」', service: '点翠' },
-    { profession: '高级手工螺钿师', business: '螺钿艺术馆「钿光」', service: '螺钿' },
-    { profession: '高级手工砚雕师', business: '砚雕艺术馆「砚山」', service: '砚雕' },
-    { profession: '高级手工印章篆刻师', business: '篆刻艺术馆「印篆」', service: '篆刻' },
-    { profession: '高级手工碑拓师', business: '碑拓艺术馆「拓影」', service: '碑拓' },
-    { profession: '高级手工装裱师', business: '书画装裱馆「裱古」', service: '装裱' },
-    { profession: '高级手工拓片师', business: '拓片艺术馆「片语」', service: '拓片' },
-    { profession: '高级手工古籍修复师', business: '古籍修复馆「籍修」', service: '古籍修复' },
-    { profession: '高级手工碑刻师', business: '碑刻艺术馆「碑魂」', service: '碑刻' },
-    { profession: '高级手工拓印师', business: '拓印艺术馆「印痕」', service: '拓印' },
-    { profession: '高级手工木版水印师', business: '水印艺术馆「水印」', service: '木版水印' },
-    { profession: '高级手工活字印刷师', business: '活字印刷馆「字活」', service: '活字印刷' },
-    { profession: '高级手工皮影雕刻师', business: '皮影雕刻艺术馆「影雕」', service: '皮影雕刻' },
-    { profession: '高级手工木偶雕刻师', business: '木偶雕刻艺术馆「偶雕」', service: '木偶雕刻' },
-    { profession: '高级手工面具师', business: '面具艺术馆「面魂」', service: '面具' },
-    { profession: '高级手工木偶头雕刻师', business: '木偶头艺术馆「偶首」', service: '木偶头' },
-    { profession: '高级手工根雕师', business: '根雕艺术馆「根语」', service: '根雕' },
-    { profession: '高级手工核雕师', business: '核雕艺术馆「核境」', service: '核雕' },
-    { profession: '高级手工牙雕师', business: '牙雕艺术馆「牙刻」', service: '牙雕' },
-    { profession: '高级手工角雕师', business: '角雕艺术馆「角韵」', service: '角雕' },
-    { profession: '高级手工贝雕师', business: '贝雕艺术馆「贝语」', service: '贝雕' },
-    { profession: '高级手工椰雕师', business: '椰雕艺术馆「椰刻」', service: '椰雕' },
-    { profession: '高级手工糖艺师', business: '糖艺艺术馆「糖境」', service: '糖艺' },
-    { profession: '高级手工巧克力师', business: '巧克力艺术馆「巧境」', service: '巧克力' },
-    { profession: '高级手工翻糖师', business: '翻糖艺术馆「翻境」', service: '翻糖' },
-    { profession: '高级手工冰雕师', business: '冰雕艺术馆「冰境」', service: '冰雕' },
-    { profession: '高级手工沙画师', business: '沙画艺术馆「沙境」', service: '沙画' },
-    { profession: '高级手工面塑师', business: '面塑艺术馆「塑境」', service: '面塑' },
-    { profession: '高级手工糖塑师', business: '糖塑艺术馆「糖塑」', service: '糖塑' },
-    { profession: '高级手工纸艺师', business: '纸艺艺术馆「纸境」', service: '纸艺' },
-    { profession: '高级手工羊毛毡师', business: '羊毛毡艺术馆「毡境」', service: '羊毛毡' },
-    { profession: '高级手工微缩景观师', business: '微缩景观艺术馆「微境」', service: '微缩景观' }
+    { title: '多用途计时器应用', category: '生产力工具', type: '移动应用', language: '英文', prompt: 'A simple and elegant multi-purpose timer app for focused work sessions or cooking. Key features include setting custom countdown timers, a stopwatch function, pause/resume controls, and customizable alert sounds. Use a clean, minimalist theme with soft greens and whites.' },
+    { title: '习惯追踪器应用', category: '健康生活', type: '移动应用', language: '英文', prompt: 'A simple, minimalist habit tracker app focused on daily check-ins. Key features include adding new habits, marking habits as complete for the day, viewing a streak calendar for each habit, and setting daily reminders. Use a clean white and soft green color scheme.' },
+    { title: '抽认卡学习应用', category: '教育学习', type: '移动应用', language: '英文', prompt: 'A simple and effective flashcard app designed for learning and memorization. Key features include creating custom flashcard decks, adding and editing individual cards, reviewing cards by flipping them, and marking cards as learned. Use a calming green and cream color scheme.' },
+    { title: '情绪日记应用', category: '健康生活', type: '移动应用', language: '英文', prompt: 'A personalized mood journal app designed to track and visualize daily emotional states like a mood ring. Key features include creating daily entries with a mood selector, viewing a calendar displaying past moods, searching through journal entries, and generating mood trend reports. Use a serene soft-purple and cool-gray color scheme.' },
+    { title: '个人预算工具', category: '财务管理', type: '移动应用', language: '英文', prompt: 'A personal budgeting tool to track income and expenses, allowing users to add transactions with categories, view summary reports, set monthly budgets, and filter past spending. Use a clean, modern green and white color scheme.' },
+    { title: '数字日记应用', category: '生活记录', type: '移动应用', language: '英文', prompt: 'A serene digital journaling app for daily reflection and personal thoughts. Key features include creating new dated entries, browsing past entries by date, and searching through your journal. Use warm, earthy tones with subtle cream accents.' },
+    { title: '极简待办事项', category: '生产力工具', type: '移动应用', language: '英文', prompt: 'A minimalist productivity app designed to manage daily to-do lists. Key features include quickly adding new tasks, marking tasks as complete, and viewing current and completed task lists. Use a clean white and soft green color scheme.' },
+    { title: '奇幻地图制作器', category: '创意工具', type: '桌面应用', language: '英文', prompt: 'A creative fantasy map maker app for world-building. Key features include drawing landmasses and terrain with various brush tools, adding custom labels and icons for cities and landmarks, managing map layers for detail, and exporting finished maps. Use an earthy, parchment-inspired color scheme with muted browns, greens, and sepia tones.' },
+    { title: '库存跟踪器', category: '数据管理', type: '移动应用', language: '英文', prompt: 'A clean, data-focused inventory tracker app to manage stock. Key features include adding items with details, updating quantities, viewing current stock levels, and searching/filtering the inventory. Use a blue and gray color scheme.' },
+    { title: '情绪追踪日记', category: '健康生活', type: '移动应用', language: '英文', prompt: 'A reflective mood journal app designed for daily self-tracking and emotional awareness. Key features include logging daily mood with optional notes, viewing mood trends over time through charts, exploring past entries via a calendar view, and setting customizable daily reminders. Use a calming pastel color palette.' },
+    { title: '创意笔记应用', category: '创意工具', type: '移动应用', language: '英文', prompt: 'A clean, minimalist note-taking app designed for capturing and organizing creative ideas. Key features include quickly adding new ideas, tagging/categorizing notes, searching through all ideas, and browsing a visual list of your inspirations. Use a soft green and cream color scheme.' },
+    { title: '食谱管理器', category: '生活助手', type: '移动应用', language: '英文', prompt: 'A warm and inviting recipe manager app for home cooks, focusing on organization and meal planning. Key features include adding and editing custom recipes, searching recipes by ingredients, creating shopping lists, and viewing step-by-step cooking instructions. Use an earthy tones color scheme.' },
+    { title: '感恩日记', category: '生活记录', type: '移动应用', language: '英文', prompt: 'A serene daily gratitude journal app to cultivate thankfulness. Key features include adding new entries with date and text, viewing a chronological list of past entries, setting daily reminders, and exporting journal data. Use a soft pastel color scheme with greens and creams.' },
+    { title: '植物护理管理', category: '生活助手', type: '移动应用', language: '英文', prompt: 'A personalized plant care management app designed to help users track and nurture their houseplants. Key features include adding new plants with specific care details, setting customized watering and fertilizing reminders, logging completed care actions, and viewing a comprehensive list of all plants with their upcoming needs. Implement an earthy green and terracotta color scheme.' },
+    { title: '正念冥想应用', category: '健康生活', type: '移动应用', language: '英文', prompt: 'A peaceful personal mindfulness app offering guided meditation sessions, soothing background soundscapes, customizable breathwork exercises, and progress tracking, all presented with calm green and cream tones.' },
+    { title: '任务管理器', category: '生产力工具', type: '移动应用', language: '英文', prompt: 'A minimalist task manager app designed to boost productivity. Key features include adding new tasks with deadlines, marking tasks as complete, viewing tasks by due date, and editing/deleting existing tasks. Use a calm green and white color scheme.' },
+    { title: '库存管理系统', category: '数据管理', type: '移动应用', language: '英文', prompt: 'A clean, data-focused inventory tracker app to manage stock. Key features include adding items with details, updating quantities, viewing current stock levels, and searching/filtering the inventory. Use a blue and gray color scheme.' },
+    { title: '任务组织应用', category: '生产力工具', type: '移动应用', language: '英文', prompt: 'A clean, minimalist task management app designed to help users organize their daily to-dos. Key interactive features include adding new tasks, marking tasks as complete, viewing all tasks by status, and editing or deleting existing tasks. Use a clean white and subtle green color scheme.' },
+    { title: '日常任务管理', category: '生产力工具', type: '移动应用', language: '英文', prompt: 'A minimalist task management app for daily organization. Key features include adding new tasks with details, marking tasks complete, viewing tasks by due date or category, and editing/deleting existing tasks. Use a clean, green and white color scheme.' },
+    { title: '食品预算应用', category: '财务管理', type: '移动应用', language: '英文', prompt: 'A personal food budgeting app to track and manage grocery and dining expenses. Key features include adding new food purchases with categories, setting monthly food budgets, viewing expense summaries, and monitoring remaining budget. Use a fresh green and beige color scheme.' },
+    { title: '多用途计时器应用', category: '生产力工具', type: '移动应用', language: '中文', prompt: '一个简单而优雅的多用途计时器应用程序，用于集中工作或烹饪。主要功能包括设置自定义倒数计时器、秒表功能、暂停/恢复控制和可自定义的警报声音。使用干净、简约的主题，搭配柔和的绿色和白色。' },
+    { title: '习惯追踪器应用', category: '健康生活', type: '移动应用', language: '中文', prompt: '一款简单、简约的习惯追踪器应用程序，专注于日常签到。主要功能包括添加新习惯、将习惯标记为当天完成、查看每个习惯的连续日历以及设置每日提醒。使用干净的白色和柔和的绿色配色方案。' },
+    { title: '抽认卡学习应用', category: '教育学习', type: '移动应用', language: '中文', prompt: '专为学习和记忆而设计的简单有效的抽认卡应用程序。主要功能包括创建自定义抽认卡牌组、添加和编辑单个卡片、通过翻转卡片来查看卡片以及将卡片标记为已学习。使用平静的绿色和奶油色配色方案。' },
+    { title: '情绪日记应用', category: '健康生活', type: '移动应用', language: '中文', prompt: '个性化的情绪日记应用程序，旨在像情绪环一样跟踪和可视化日常情绪状态。主要功能包括使用情绪选择器创建每日条目、查看显示过去心情的日历、搜索日记条目以及生成情绪趋势报告。使用宁静的柔紫色和冷灰色配色方案。' },
+    { title: '个人预算工具', category: '财务管理', type: '移动应用', language: '中文', prompt: '个人预算工具，用于跟踪收入和支出，允许用户添加带有类别的交易、查看汇总报告、设置每月预算和过滤过去的支出。使用干净、现代的绿色和白色配色方案。' },
+    { title: '数字日记应用', category: '生活记录', type: '移动应用', language: '中文', prompt: '一款宁静的数字日记应用程序，用于日常反思和个人想法。主要功能包括创建新的日期条目、按日期浏览过去的条目以及搜索您的日记。使用温暖、朴实的色调和微妙的奶油色。' },
+    { title: '极简待办事项', category: '生产力工具', type: '移动应用', language: '中文', prompt: '一款极简的生产力应用程序，旨在管理日常待办事项列表。主要功能包括快速添加新任务、将任务标记为完成以及查看当前和已完成的任务列表。使用干净的白色和柔和的绿色配色方案。' },
+    { title: '奇幻地图制作器', category: '创意工具', type: '桌面应用', language: '中文', prompt: '用于世界构建的创意奇幻地图制作应用程序。主要功能包括使用各种画笔工具绘制陆地和地形、为城市和地标添加自定义标签和图标、管理地图图层以获取细节以及导出完成的地图。使用朴实的羊皮纸风格配色方案，搭配柔和的棕色、绿色和棕褐色调。' },
+    { title: '库存跟踪器', category: '数据管理', type: '移动应用', language: '中文', prompt: '一个干净、以数据为中心的库存跟踪器应用程序来管理库存。主要功能包括添加带有详细信息的项目、更新数量、查看当前库存水平以及搜索/过滤库存。使用蓝色和灰色配色方案。' },
+    { title: '情绪追踪日记', category: '健康生活', type: '移动应用', language: '中文', prompt: '一款反思性情绪日记应用程序，专为日常自我跟踪和情绪意识而设计。主要功能包括使用可选笔记记录每日情绪、通过图表查看一段时间内的情绪趋势、通过日历视图探索过去的条目以及设置可自定义的每日提醒。使用平静柔和的调色板。' },
+    { title: '创意笔记应用', category: '创意工具', type: '移动应用', language: '中文', prompt: '一款干净、简约的笔记应用程序，专为捕捉和组织创意而设计。主要功能包括快速添加新想法、标记/分类笔记、搜索所有想法以及浏览灵感的可视化列表。使用柔和的绿色和奶油色配色方案。' },
+    { title: '食谱管理器', category: '生活助手', type: '移动应用', language: '中文', prompt: '一款温馨宜人的家庭厨师食谱管理器应用程序，专注于组织和膳食计划。主要功能包括添加和编辑自定义食谱、按成分搜索食谱、创建购物清单以及查看分步烹饪说明。使用大地色调的配色方案。' },
+    { title: '感恩日记', category: '生活记录', type: '移动应用', language: '中文', prompt: '一个宁静的每日感恩日记应用程序，培养感恩之心。主要功能包括添加带有日期和文本的新条目、查看过去条目的时间顺序列表、设置每日提醒以及导出日记数据。使用带有绿色和奶油色的柔和柔和配色方案。' },
+    { title: '植物护理管理', category: '生活助手', type: '移动应用', language: '中文', prompt: '个性化的植物护理管理应用程序，旨在帮助用户跟踪和培育他们的室内植物。主要功能包括添加具有特定护理细节的新植物、设置自定义浇水和施肥提醒、记录已完成的护理作以及查看所有植物及其即将到来的需求的完整列表。实施大地绿色和赤土色配色方案。' },
+    { title: '正念冥想应用', category: '健康生活', type: '移动应用', language: '中文', prompt: '一款平静的个人正念应用程序，提供引导冥想课程、舒缓的背景音景、可定制的呼吸练习和进度跟踪，所有这些都以平静的绿色和奶油色调呈现。' },
+    { title: '任务管理器', category: '生产力工具', type: '移动应用', language: '中文', prompt: '一款极简的任务管理器应用程序，旨在提高生产力。主要功能包括添加有截止日期的新任务、将任务标记为完成、按截止日期查看任务以及编辑/删除现有任务。使用沉稳的绿色和白色配色方案。' },
+    { title: '库存管理系统', category: '数据管理', type: '移动应用', language: '中文', prompt: '一个干净、以数据为中心的库存跟踪器应用程序来管理库存。主要功能包括添加带有详细信息的项目、更新数量、查看当前库存水平以及搜索/过滤库存。使用蓝色和灰色配色方案。' },
+    { title: '任务组织应用', category: '生产力工具', type: '移动应用', language: '中文', prompt: '一款干净、简约的任务管理应用程序，旨在帮助用户组织日常待办事项。主要交互功能包括添加新任务、将任务标记为完成、按状态查看所有任务以及编辑或删除现有任务。使用干净的白色和微妙的绿色配色方案。' },
+    { title: '日常任务管理', category: '生产力工具', type: '移动应用', language: '中文', prompt: '一款用于日常组织的极简任务管理应用程序。主要功能包括添加包含详细信息的新任务、将任务标记为完成、按截止日期或类别查看任务以及编辑/删除现有任务。使用干净的绿色和白色配色方案。' },
+    { title: '食品预算应用', category: '财务管理', type: '移动应用', language: '中文', prompt: '个人食品预算应用程序，用于跟踪和管理杂货和餐饮费用。主要功能包括添加带有类别的新食品购买、设置每月食品预算、查看费用摘要以及监控剩余预算。使用清新的绿色和米色配色方案。' }
   ];
 
   /**
    * 执行抽奖功能
-   * 随机抽取1-100号案例用于现场讲解
+   * 随机抽取1-40号案例用于现场讲解
    */
   const handleDraw = () => {
     if (isDrawing) return;
@@ -136,7 +76,7 @@ export default function Demo() {
     const maxCount = 20; // 动画次数
     
     const drawInterval = setInterval(() => {
-      const randomNum = Math.floor(Math.random() * 100) + 1;
+      const randomNum = Math.floor(Math.random() * 40) + 1;
       setDrawnNumber(randomNum);
       count++;
       
@@ -144,7 +84,7 @@ export default function Demo() {
         clearInterval(drawInterval);
         
         // 最终抽奖结果
-        const finalNumber = Math.floor(Math.random() * 100) + 1;
+        const finalNumber = Math.floor(Math.random() * 40) + 1;
         const finalCase = allCases[finalNumber - 1];
         
         setDrawnNumber(finalNumber);
@@ -233,31 +173,53 @@ export default function Demo() {
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white">案例一</h3>
-                  <p className="text-blue-300">高端餐厅网站</p>
+                  <p className="text-blue-300">GreenNote 笔记应用</p>
                 </div>
               </div>
               
               <div className="space-y-4">
                 <div className="bg-black/30 rounded-lg p-4 border border-blue-500/30">
                   <h4 className="text-blue-300 font-semibold mb-2">🎭 角色设定</h4>
-                  <p className="text-gray-300 text-sm">米其林三星主厨，经营高端法式餐厅</p>
+                  <p className="text-gray-300 text-sm">产品经理，开发极简笔记应用</p>
                 </div>
                 
                 <div className="bg-black/30 rounded-lg p-4 border border-blue-500/30">
-                  <h4 className="text-blue-300 font-semibold mb-2">🎯 演示重点</h4>
-                  <ul className="text-gray-300 text-sm space-y-1">
-                    <li>• AI提示词优化技巧</li>
-                    <li>• 高端品牌视觉设计</li>
-                    <li>• 用户体验优化</li>
-                  </ul>
-                </div>
+                    <h4 className="text-blue-300 font-semibold mb-2">🎯 演示重点</h4>
+                    <ul className="text-gray-300 text-sm space-y-1">
+                      <li>• 创建和编辑笔记功能</li>
+                      <li>• 标签分类系统设计</li>
+                      <li>• 搜索功能实现</li>
+                    </ul>
+                  </div>
+                  
+                  <div className="bg-black/30 rounded-lg p-4 border border-blue-500/30">
+                    <h4 className="text-blue-300 font-semibold mb-2">🔗 演示链接</h4>
+                    <div className="space-y-2">
+                      <a 
+                        href="https://studio--greennote-4roah.us-central1.hosted.app/" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="block text-blue-400 hover:text-blue-300 text-sm underline"
+                      >
+                        🌐 在线演示
+                      </a>
+                      <a 
+                        href="https://www.bilibili.com/video/BV1MqhTzFEAa/?spm_id_from=333.1387.homepage.video_card.click&vd_source=921270471e745ada21af6b8406e3ff55" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="block text-blue-400 hover:text-blue-300 text-sm underline"
+                      >
+                        📺 视频教程
+                      </a>
+                    </div>
+                  </div>
                 
                 <div className="bg-black/30 rounded-lg p-4 border border-blue-500/30">
                   <div className="flex items-center justify-between mb-3">
                     <h4 className="text-blue-300 font-semibold">💬 AI提示词</h4>
                     <button
                       onClick={() => copyPrompt(
-                        '我是一个米其林三星主厨，我开了一家高端法式餐厅「星曜」，请你帮我做一个私厨餐厅的网站。要求：1. 体现米其林三星的品质和声誉 2. 展现法式料理的精致与艺术感 3. 营造奢华而温馨的用餐氛围 4. 包含预约系统和主厨介绍 5. 响应式设计，支持移动端浏览。所有回答，请你用中文回复我。',
+                        '请帮我创建一个名为"GreenNote"的极简笔记应用。这是一款专注于快速思维捕捉和组织的笔记工具。主要功能包括：创建新笔记、编辑现有笔记、使用标签对笔记进行分类、搜索已保存的笔记。请使用沉稳的绿色和灰白色配色方案，营造平静专注的使用体验。界面要简洁明了，突出内容本身。',
                         'case1'
                       )}
                       className={`flex items-center px-3 py-1 rounded-lg text-xs transition-all duration-200 ${
@@ -279,13 +241,11 @@ export default function Demo() {
                       )}
                     </button>
                   </div>
-                  <p className="text-gray-300 text-xs leading-relaxed bg-blue-500/10 p-3 rounded border border-blue-500/20">
-                    我是一个米其林三星主厨，我开了一家高端法式餐厅「星曜」，请你帮我做一个私厨餐厅的网站。要求：1. 体现米其林三星的品质和声誉 2. 展现法式料理的精致与艺术感 3. 营造奢华而温馨的用餐氛围 4. 包含预约系统和主厨介绍 5. 响应式设计，支持移动端浏览。所有回答，请你用中文回复我。
-                  </p>
+                  <p className="text-gray-300 text-xs leading-relaxed bg-blue-500/10 p-3 rounded border border-blue-500/20">A minimalist note-taking app for quick thought capture and organization. Key features include creating new notes, editing existing notes, categorizing notes with tags, and searching through saved notes. Use a calm green and off-white color scheme.</p>
                 </div>
                 
                 <div className="flex items-center justify-between pt-4">
-                  <span className="text-blue-300 text-sm font-medium">预计时长: 10分钟</span>
+                  <span className="text-blue-300 text-sm font-medium">预计时长: 3分钟</span>
                   <div className="flex items-center text-yellow-400">
                     <Star className="w-4 h-4 mr-1" />
                     <span className="text-sm">精选案例</span>
@@ -307,31 +267,53 @@ export default function Demo() {
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white">案例二</h3>
-                  <p className="text-orange-300">珠宝定制工作室</p>
+                  <p className="text-orange-300">绿色笔记 中文版</p>
                 </div>
               </div>
               
               <div className="space-y-4">
                 <div className="bg-black/30 rounded-lg p-4 border border-orange-500/30">
                   <h4 className="text-orange-300 font-semibold mb-2">🎭 角色设定</h4>
-                  <p className="text-gray-300 text-sm">高级珠宝设计师，专注奢华定制</p>
+                  <p className="text-gray-300 text-sm">产品经理，开发中文笔记应用</p>
                 </div>
                 
                 <div className="bg-black/30 rounded-lg p-4 border border-orange-500/30">
-                  <h4 className="text-orange-300 font-semibold mb-2">🎯 演示重点</h4>
-                  <ul className="text-gray-300 text-sm space-y-1">
-                    <li>• 奢华品牌定位</li>
-                    <li>• 交互动效设计</li>
-                    <li>• 移动端适配</li>
-                  </ul>
-                </div>
+                    <h4 className="text-orange-300 font-semibold mb-2">🎯 演示重点</h4>
+                    <ul className="text-gray-300 text-sm space-y-1">
+                      <li>• 中文界面本地化</li>
+                      <li>• 笔记管理功能</li>
+                      <li>• 用户体验优化</li>
+                    </ul>
+                  </div>
+                  
+                  <div className="bg-black/30 rounded-lg p-4 border border-orange-500/30">
+                    <h4 className="text-orange-300 font-semibold mb-2">🔗 演示链接</h4>
+                    <div className="space-y-2">
+                      <a 
+                        href="https://studio--greennote-4roah.us-central1.hosted.app/" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="block text-orange-400 hover:text-orange-300 text-sm underline"
+                      >
+                        🌐 在线演示
+                      </a>
+                      <a 
+                        href="https://www.bilibili.com/video/BV1MqhTzFEAa/?spm_id_from=333.1387.homepage.video_card.click&vd_source=921270471e745ada21af6b8406e3ff55" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="block text-orange-400 hover:text-orange-300 text-sm underline"
+                      >
+                        📺 视频教程
+                      </a>
+                    </div>
+                  </div>
                 
                 <div className="bg-black/30 rounded-lg p-4 border border-purple-500/30">
                   <div className="flex items-center justify-between mb-3">
                     <h4 className="text-purple-300 font-semibold">💬 AI提示词</h4>
                     <button
                       onClick={() => copyPrompt(
-                        '我是一位资深珠宝设计师，拥有20年高端定制经验，现在要为我的珠宝定制工作室「璀璨工坊」创建一个展示网站。要求：1. 展现珠宝的奢华与精致 2. 突出个人设计师品牌故事 3. 展示定制流程和工艺细节 4. 包含作品集和客户见证 5. 提供在线咨询和预约功能 6. 体现工匠精神和艺术价值。所有回答，请你用中文回复我。',
+                        '请为我开发一款名为"绿色笔记"的极简笔记应用。这是一个专为中文用户设计的思维整理工具。核心功能包括：新建笔记、编辑笔记内容、为笔记添加分类标签、全文搜索笔记内容。采用沉稳的绿色和灰白色设计风格，界面简洁清爽，让用户专注于内容创作。支持快速记录灵感和想法。',
                         'case2'
                       )}
                       className={`flex items-center px-3 py-1 rounded-lg text-xs transition-all duration-200 ${
@@ -354,12 +336,12 @@ export default function Demo() {
                     </button>
                   </div>
                   <p className="text-gray-300 text-xs leading-relaxed bg-purple-500/10 p-3 rounded border border-purple-500/20">
-                    我是一位资深珠宝设计师，拥有20年高端定制经验，现在要为我的珠宝定制工作室「璀璨工坊」创建一个展示网站。要求：1. 展现珠宝的奢华与精致 2. 突出个人设计师品牌故事 3. 展示定制流程和工艺细节 4. 包含作品集和客户见证 5. 提供在线咨询和预约功能 6. 体现工匠精神和艺术价值。所有回答，请你用中文回复我。
+                    请为我开发一款名为"绿色笔记"的极简笔记应用。这是一个专为中文用户设计的思维整理工具。核心功能包括：新建笔记、编辑笔记内容、为笔记添加分类标签、全文搜索笔记内容。采用沉稳的绿色和灰白色设计风格，界面简洁清爽，让用户专注于内容创作。支持快速记录灵感和想法。
                   </p>
                 </div>
                 
                 <div className="flex items-center justify-between pt-4">
-                  <span className="text-purple-300 text-sm font-medium">预计时长: 12分钟</span>
+                  <span className="text-purple-300 text-sm font-medium">预计时长: 3分钟</span>
                   <div className="flex items-center text-yellow-400">
                     <Star className="w-4 h-4 mr-1" />
                     <span className="text-sm">精选案例</span>
@@ -384,9 +366,7 @@ export default function Demo() {
                 <Gift className="w-8 h-8 mr-3 text-purple-400" />
                 🎲 现场抽奖互动
               </h2>
-              <p className="text-lg text-gray-300">
-                随机抽取1-100号案例，现场演示AI开发过程
-              </p>
+              <p className="text-lg text-gray-300">随机抽取1-40号案例，现场演示AI开发过程</p>
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -479,35 +459,68 @@ export default function Demo() {
                       </div>
                       <div>
                         <h3 className="text-2xl font-bold text-white">🎉 抽中案例</h3>
-                        <p className="text-green-300">第{drawnNumber}号 - {drawnCase.profession}</p>
+                        <p className="text-green-300">第{drawnNumber}号 - {drawnCase.title}</p>
                       </div>
                     </div>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-4">
                         <div className="bg-black/30 rounded-lg p-4 border border-green-500/30">
-                          <h4 className="text-green-300 font-semibold mb-2">👤 职业角色</h4>
-                          <p className="text-white font-medium">{drawnCase.profession}</p>
+                          <h4 className="text-green-300 font-semibold mb-2">📱 应用标题</h4>
+                          <p className="text-white font-medium">{drawnCase.title}</p>
                         </div>
                         
                         <div className="bg-black/30 rounded-lg p-4 border border-green-500/30">
-                          <h4 className="text-green-300 font-semibold mb-2">🏢 业务名称</h4>
-                          <p className="text-white font-medium">{drawnCase.business}</p>
+                          <h4 className="text-green-300 font-semibold mb-2">🏷️ 应用类别</h4>
+                          <p className="text-white font-medium">{drawnCase.category}</p>
                         </div>
                       </div>
                       
                       <div className="space-y-4">
                         <div className="bg-black/30 rounded-lg p-4 border border-green-500/30">
-                          <h4 className="text-green-300 font-semibold mb-2">🎯 服务类型</h4>
-                          <p className="text-white font-medium">{drawnCase.service}</p>
+                          <h4 className="text-green-300 font-semibold mb-2">📱 应用类型</h4>
+                          <p className="text-white font-medium">{drawnCase.type}</p>
                         </div>
                         
                         <div className="bg-black/30 rounded-lg p-4 border border-green-500/30">
-                          <h4 className="text-green-300 font-semibold mb-2">💡 AI提示词</h4>
-                          <p className="text-gray-300 text-sm leading-relaxed">
-                            我是一个{drawnCase.profession}，我开了一家{drawnCase.business}，请你帮我做一个{drawnCase.service}的网站，要求高端大气。
-                          </p>
+                          <h4 className="text-green-300 font-semibold mb-2">🌐 语言版本</h4>
+                          <p className="text-white font-medium">{drawnCase.language}</p>
                         </div>
+                      </div>
+                    </div>
+                    
+                    {/* AI提示词显示模块 */}
+                    <div className="mt-6 bg-black/30 rounded-lg p-4 border border-green-500/30">
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="text-green-300 font-semibold flex items-center">
+                          <Code className="w-5 h-5 mr-2" />
+                          💬 AI提示词
+                        </h4>
+                        <button
+                          onClick={() => copyPrompt(drawnCase.prompt, `lottery-${drawnNumber}`)}
+                          className={`flex items-center px-3 py-1 rounded-lg text-xs transition-all duration-200 ${
+                            copiedPrompt === `lottery-${drawnNumber}`
+                              ? 'bg-green-500/20 text-green-300 border border-green-500/30'
+                              : 'bg-green-500/20 text-green-300 border border-green-500/30 hover:bg-green-500/30'
+                          }`}
+                        >
+                          {copiedPrompt === `lottery-${drawnNumber}` ? (
+                            <>
+                              <Check className="w-3 h-3 mr-1" />
+                              已复制
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="w-3 h-3 mr-1" />
+                              复制
+                            </>
+                          )}
+                        </button>
+                      </div>
+                      <div className="bg-green-500/10 p-4 rounded border border-green-500/20 max-h-32 overflow-y-auto">
+                        <p className="text-gray-300 text-sm leading-relaxed whitespace-pre-wrap">
+                          {drawnCase.prompt}
+                        </p>
                       </div>
                     </div>
                     
@@ -518,7 +531,8 @@ export default function Demo() {
                       </div>
                       <ul className="text-gray-300 text-sm space-y-1">
                         <li>• 如何优化AI提示词获得更好的结果</li>
-                        <li>• 针对{drawnCase.service}的设计要点分析</li>
+                        <li>• 针对{drawnCase.category}应用的设计要点分析</li>
+                        <li>• {drawnCase.language}版本的本地化开发技巧</li>
                         <li>• 实时调整和迭代开发过程</li>
                       </ul>
                     </div>

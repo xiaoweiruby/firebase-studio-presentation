@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Menu, X, Home, Clock, Code, User, Sparkles, Heart } from 'lucide-react';
+import { Menu, X, Home, Code, User, Sparkles, Heart, BookOpen } from 'lucide-react';
 
 /**
  * 网站导航组件
@@ -24,10 +24,11 @@ export default function Navigation() {
       icon: User
     },
     {
-      path: '/timeline',
-      label: '发展历程',
-      icon: Clock
+      path: '/theory-base',
+      label: '理论基础',
+      icon: BookOpen
     },
+
     {
       path: '/demo',
       label: '现场演示',
